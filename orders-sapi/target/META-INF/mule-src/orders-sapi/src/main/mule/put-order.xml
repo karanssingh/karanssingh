@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="put-orderFlow" doc:id="b119783f-fe51-45ec-ab8c-6d7c31d2f396" >
+		<db:update doc:name="Update Order Records" doc:id="db73b7b7-86b3-4e76-8f59-14b5ce0eddb2" config-ref="Database_Config">
+			<db:sql><![CDATA[update orders set  orderDate= :orderDate, 
+requiredDate = :requiredDate, shippedDate= :shippedDate,
+status= :status, comments= :comments, customerNumber= :customerNumber where orderNumber = :orderNumber;]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
+    "orderNumber": attributes.uriParams.orderNumber,
+    "orderDate": payload.orderDate,
+    "requiredDate": payload.requiredDate,
+    "shippedDate": payload.shippedDate,
+    "status": payload.status,
+    "comments": payload.comments,
+    "customerNumber": payload.customerNumber
+  }]]]></db:input-parameters>
+		</db:update>
+		<logger level="INFO" doc:name="Logger" doc:id="cbff4ea8-d35c-4063-ab83-b78a8e9c939e" message="Order Record is updated"/>
+	</flow>
+</mule>

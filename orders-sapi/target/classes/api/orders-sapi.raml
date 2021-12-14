@@ -1,0 +1,53 @@
+#%RAML 1.0
+title: orders-sapi
+
+types:
+  orders: !include datatypes/orders-dataType.raml
+baseUri: http://localhost:8081
+
+/orders:
+  get:
+    description: return all orders along with its details from order and order details table
+    responses:
+      200:
+        body: 
+          application/json:
+            type: orders[]
+            examples:
+              output: !include examples/get-all-orders.raml
+      400:
+        body:
+          application/json:
+            example: !include examples/400-response.json
+  
+  post:
+    description: post the order along with details and return the order id created
+    body:
+      application/json:
+        example: !include examples/order.json
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/200-post-order-response.json
+      400:
+        body:
+          application/json:
+            example: !include examples/400-response.json
+
+  /{orderNumber}:
+    put:
+      description: update the existing order
+      body:
+        application/json:
+          example: !include examples/order.json
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/200-put-order-response.json
+        400:
+          body:
+            application/json:
+              example: !include examples/400-response.json
+
