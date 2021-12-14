@@ -6,6 +6,7 @@
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="get-ordersFlow" doc:id="ae5ee0aa-2ce4-4a0e-8648-7258d26b6438" >
+		<logger level="INFO" doc:name="Logger" doc:id="981ff5d5-e5ee-4b79-9a7a-d29a1a01b309" message="START OF FLOW"/>
 		<db:select doc:id="0eea2036-72a2-416d-9f5f-5fe28011e075" config-ref="Database_Config" doc:name="Get combined orders and orderdetails records">
 			<db:sql><![CDATA[select orders.orderNumber, orderDate, requiredDate, shippedDate, status, comments, 
 customerNumber, orderdetails.productCode, orderdetails.quantityOrdered, 
