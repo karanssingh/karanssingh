@@ -31,12 +31,6 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					<sharedLibraries>
-						<sharedLibrary>
-							<groupId>com.mycompany</groupId>
-							<artifactId>mysql-connector-java-8.0.16</artifactId>
-						</sharedLibrary>
-					</sharedLibraries>
 					<classifier>mule-application</classifier>
 					<cloudHubDeployment>
 						<muleVersion>${muleVersion}</muleVersion>
@@ -46,8 +40,14 @@
 						<applicationName>${applicationName}</applicationName>
 						<workers>${workers}</workers>
 						<workerType>${workerType}</workerType>
-						<objectStoreV2>${objectStoreV2}</objectStoreV2>	
+						<objectStoreV2>${objectStoreV2}</objectStoreV2>
 					</cloudHubDeployment>
+					<sharedLibraries>
+						<sharedLibrary>
+							<groupId>com.mycompany</groupId>
+							<artifactId>mysql-connector-java-8.0.16</artifactId>
+						</sharedLibrary>
+					</sharedLibraries>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -70,8 +70,8 @@
 						<formats>
 							<format>html</format>
 						</formats>
-						<ignoreFiles> 
-						<ignoreFile>global.xml</ignoreFile>
+						<ignoreFiles>
+							<ignoreFile>global.xml</ignoreFile>
 						</ignoreFiles>
 					</coverage>
 					<skipMunitTests>true</skipMunitTests>
@@ -106,11 +106,6 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>com.mycompany</groupId>
-			<artifactId>mysql-connector-java-8.0.16</artifactId>
-			<version>0.1</version>
-		</dependency>
-		<dependency>
 			<groupId>com.mulesoft.munit</groupId>
 			<artifactId>munit-runner</artifactId>
 			<version>2.3.5</version>
@@ -129,6 +124,11 @@
 			<artifactId>assertions</artifactId>
 			<version>1.0.2</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mycompany</groupId>
+			<artifactId>mysql-connector-java-8.0.16</artifactId>
+			<version>0.1</version>
 		</dependency>
 	</dependencies>
 
