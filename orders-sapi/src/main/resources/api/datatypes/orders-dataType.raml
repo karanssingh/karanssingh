@@ -1,0 +1,20 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+  orderNumber: integer
+  orderDate: any
+  requiredDate: any
+  shippedDate: 
+    type: any
+    required: false
+  status: string
+  comments:
+    type: any
+    required: false
+  customerNumber: integer
+  productCode: string
+  quantityOrdered: integer
+  priceEach: integer
+  orderLineNumber: integer
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="get-ordersFlow" doc:id="ae5ee0aa-2ce4-4a0e-8648-7258d26b6438" >
+		<db:select doc:id="0eea2036-72a2-416d-9f5f-5fe28011e075" config-ref="Database_Config" doc:name="Get combined orders and orderdetails records">
+			<db:sql><![CDATA[select orders.orderNumber, orderDate, requiredDate, shippedDate, status, comments, 
+customerNumber, orderdetails.productCode, orderdetails.quantityOrdered, 
+orderdetails.priceEach, orderdetails.orderLineNumber from orders 
+join orderdetails   on orders.orderNumber = orderdetails.orderNumber ;
+]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="d95d0b8c-6b39-4ff9-a17b-2c2093b3c982" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy ($.orderNumber) pluck $ map ((item, index) -> {
+    orderNumber: item.orderNumber[0],
+    orderDate: item.orderDate[0],
+    requiredDate: item.requiredDate[0],
+    shippedDate: item.shippedDate[0],
+    status: item.status[0],
+    comments: item.comments[0],
+    customerNumber: item.customerNumber[0],
+    Orderdetails: {
+        products: item map {
+            productCode : $.productCode,
+            quantityOrdered: $.quantityOrdered,
+            priceEach: $.priceEach,
+            orderLineNumber: $.orderLineNumber
+        }
+    }
+     
+})]]></ee:set-payload>
+				<ee:set-attributes resource="dataweave/get-orders.dwl" />
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
